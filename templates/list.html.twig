@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <div class="container mt-5">
+        <h1>List des produits</h1>
+        <p><a class="btn btn-primary" href="{{ path('add_product') }}">Ajouter un produit</a></p>
+        <form class="form-inline mb-3" method="get" action="{{ path('list') }}">
+            <div class="form-group mr-2">
+                <input type="text" class="form-control" name="item" value="{{ item }}" placeholder="Rechercher un produit">
+            </div>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Quantite</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>
+                                <form method="POST" action="{{ path('delete_product', {'id': product.id}) }}">
+                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                </form>
+                                <a href="{{ path('details', {'id': product.id}) }}" class="btn btn-primary">Details</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
